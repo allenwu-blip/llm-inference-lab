@@ -1,0 +1,12 @@
+name: quant-sweep
+max_tokens: 128
+seed: 7
+prompts:
+  - "Explain what a KV cache is in one paragraph."
+  - "Write a haiku about the ocean."
+  - "List three uses of a hash map."
+variants:
+  # Download GGUFs into ./models first (see README); paths below are examples.
+  fp16: models/qwen2.5-1.5b-instruct-fp16.gguf
+  q8_0: models/qwen2.5-1.5b-instruct-q8_0.gguf
+  q4_k_m: models/qwen2.5-1.5b-instruct-q4_k_m.gguf

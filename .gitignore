@@ -2,5 +2,5 @@
 __pycache__/
 *.pyc
 models/
-results/*.json
+results/
 .DS_Store
