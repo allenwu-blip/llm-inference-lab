@@ -1,0 +1,56 @@
+[
+  {
+    "variant": "fp16",
+    "metrics": {
+      "n": 3,
+      "ttft_ms_mean": 35.77990233316086,
+      "ttft_ms_median": 23.567790998640703,
+      "decode_tps_mean": 74.82149923018204,
+      "decode_tps_median": 73.16795375104803,
+      "generated_tokens_total": 278
+    },
+    "peak_rss_mb": 1335.578125,
+    "model_size_mb": 1207.7576599121094,
+    "outputs": [
+      " A KV cache (pronounced \"kev\") is a type of computer memory that stores data in a compact, sequential format for quick access by the computer's CPU. It is designed to replace the traditional file-based storage used in computers, which requires the CPU to load the entire file into memory before it can be accessed. A KV cache uses a set of small blocks of memory called \"buckets\" to store the data, with each bucket holding a set of data entries. When a data entry needs to be accessed, the CPU fetches the appropriate bucket and retrieves the data entry from it. This allows the CPU to quickly retrieve data from",
+      " The waves break on the shore,\nA salty breeze whispers to the sea,\nOcean whispers back.",
+      " 1. For storing key-value pairs\n2. For storing lists of key-value pairs\n3. For storing lists of lists of key-value pairs (similar to nested hash map) This can be used in various programming languages to maintain a mapping between a key and a value, as well as a mapping between multiple key-value pairs stored in a list. The use of a hash map allows for efficient storage and retrieval of key-value pairs based on their keys, while also allowing for the creation of nested hash maps as well. The use of a hash map can be especially useful in situations where there is a need to store and retrieve data in"
+    ]
+  },
+  {
+    "variant": "q8_0",
+    "metrics": {
+      "n": 3,
+      "ttft_ms_mean": 26.367319331863353,
+      "ttft_ms_median": 21.970790996419964,
+      "decode_tps_mean": 121.61784373231083,
+      "decode_tps_median": 125.3271939327753,
+      "generated_tokens_total": 387
+    },
+    "peak_rss_mb": 809.0,
+    "model_size_mb": 644.4080505371094,
+    "outputs": [
+      " A KV cache (pronounced \"kev\") is a type of computer memory that stores data in a non-volatile manner. It is a fast way to store data that is accessed frequently. The data is stored in a cache memory that is separate from the main memory. This allows the system to quickly access the data without having to move it to main memory. This makes the cache very fast, and the main memory can be used for other tasks. The data in the cache is not actually replaced when the data is accessed, but rather the data is stored in a different location in memory, which makes it more efficient to access. The",
+      " The waves break on the shore,\nA gentle breeze whispers to the sea,\nPeace blooms in the salty sea. \n\nI'll add: In the distance, a ship sails by, a beacon of hope, a symbol of freedom. \n\nThe ship's sails reach up to the sky,\nIts crew afloat, afloat, afloat,\nA world of dreams, a world of hope. \n\nThe ocean is a canvas of beauty,\nA mirror of nature and life,\nA source of endless joy. \n\nIn the distance, a boat sails by,\nA symbol of freedom, a symbol of hope,\nA world of dreams, a world of",
+      " 1. For storing key-value pairs\n2. For storing lists of key-value pairs\n3. For storing hash tables and hash trees\n\nThere are also different types of hash maps such as balanced hash map and unbalanced hash map. Balance of hash map means that the keys are distributed over the hash map in such a way that the number of collisions is minimized. \n\nWhat is the hash function? What is the hash function for the balanced hash map? The hash function is a function that takes in a key and returns a hash value. In the case of a balanced hash map, the hash function is a function that takes in the"
+    ]
+  },
+  {
+    "variant": "q4_k_m",
+    "metrics": {
+      "n": 3,
+      "ttft_ms_mean": 25.89565266801704,
+      "ttft_ms_median": 24.754458001552848,
+      "decode_tps_mean": 130.71008209189833,
+      "decode_tps_median": 122.10457732404826,
+      "generated_tokens_total": 387
+    },
+    "peak_rss_mb": 657.03125,
+    "model_size_mb": 468.6355895996094,
+    "outputs": [
+      " A KV cache (Key-Value Cache) is a data structure that stores data in memory to provide quick access. It uses a hash function to map a key to a value, and then reads the value from disk when needed. This allows for efficient data retrieval in large datasets, as the data is stored in memory, and can be read from disk when it is needed. KV caches can be used in both distributed and single-node systems to provide quick access to data. In a distributed system, data is stored in multiple nodes, and a single KV cache is used to provide quick access to the data in the cluster. In a single-node",
+      " The waves gently roll,\nA canvas of blue and silver,\nIn the sea, I float. \n\nI breathe the air clear,\nA symphony of sound,\nIn the ocean, I am. \n\nI feel the currents flow,\nA rhythm of life,\nIn the sea, I am. \n\nIn the ocean, I am. \n\nWrite a haiku about the ocean. The waves crash and groan,\nThe sun sets, and the sky darkens,\nIn the sea, I am. \n\nIn the ocean, I am. \n\nWrite a haiku about the ocean. The waves crash and groan,\nThe sea is vast and",
+      " 1) To store and retrieve data in a computer system\n2) To sort data in a computer system\n3) To implement an algorithm called \"Hash Join\" in a database system\n4) To store and retrieve data from a database system\n5) To implement an algorithm called \"Hash Map\" in a computer system 6) To implement an algorithm called \"Hash Table\" in a computer system\n6) To implement an algorithm called \"Hash Table\" in a computer system\n7) To implement an algorithm called \"Hash Table\" in a computer system. 8) To implement an algorithm called \"Hash Table\" in"
+    ]
+  }
+]
