@@ -1,7 +1,7 @@
 import json
 from inference_lab.config import RunConfig
 from inference_lab.backends.fake import FakeBackend
-from inference_lab.runner import run_experiment, save_results, RunResult
+from inference_lab.runner import run_experiment, save_results, run_single, RunResult
 
 
 def _run(quant):
@@ -26,3 +26,12 @@ def test_save_results_writes_json(tmp_path):
     data = json.loads(out.read_text())
     assert data[0]["variant"] == "fp16"
     assert "decode_tps_mean" in data[0]["metrics"]
+
+
+def test_run_single_returns_payload():
+    rc = _run("fp16")
+    d = run_single(rc, backend_name="fake")
+    assert d["variant"] == "fp16"
+    assert d["metrics"]["n"] == 2
+    assert d["peak_rss_mb"] > 0
+    assert len(d["outputs"]) == 2

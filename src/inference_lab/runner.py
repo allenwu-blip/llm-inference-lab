@@ -48,6 +48,48 @@ def run_experiment(
     return results
 
 
+def run_single(rc: RunConfig, backend_name: str = "llama") -> dict:
+    """Run one variant and return a JSON-able payload.
+
+    Peak RSS is measured with this process's own getrusage, so when each
+    variant is run in a fresh process (see run_experiment_isolated) the
+    memory number reflects that variant alone — not the whole sweep.
+    """
+    if backend_name == "fake":
+        from .backends.fake import FakeBackend
+        backend: Backend = FakeBackend()
+    else:
+        from .backends.llama_cpp import LlamaCppBackend
+        backend = LlamaCppBackend(rc.model_path)
+    backend.load()
+    gens = [backend.generate(p, rc.max_tokens, rc.seed) for p in rc.prompts]
+    return {
+        "variant": rc.quant,
+        "metrics": asdict(aggregate(gens)),
+        "peak_rss_mb": _peak_rss_mb(),
+        "model_size_mb": _model_size_mb(rc.model_path),
+        "outputs": [g.output_text for g in gens],
+    }
+
+
+def run_experiment_isolated(runs: list[RunConfig], backend_name: str = "llama") -> list[RunResult]:
+    """Run each variant in a fresh process so peak RSS is honest per variant."""
+    import multiprocessing as mp
+    from .metrics import RunMetrics
+    ctx = mp.get_context("spawn")
+    payloads: list[dict] = []
+    with ctx.Pool(processes=1, maxtasksperchild=1) as pool:
+        payloads = pool.starmap(run_single, [(rc, backend_name) for rc in runs])
+    return [
+        RunResult(
+            variant=p["variant"], metrics=RunMetrics(**p["metrics"]),
+            peak_rss_mb=p["peak_rss_mb"], model_size_mb=p["model_size_mb"],
+            outputs=p["outputs"],
+        )
+        for p in payloads
+    ]
+
+
 def save_results(results: list[RunResult], path: str) -> None:
     payload = [
         {
