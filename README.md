@@ -1,5 +1,7 @@
 # llm-inference-lab
 
+[![CI](https://github.com/allenwu-blip/llm-inference-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/allenwu-blip/llm-inference-lab/actions/workflows/ci.yml)
+
 A small, **reproducible** harness for measuring and optimizing LLM inference. Serve a model, measure it honestly (latency, throughput, memory), sweep an optimization, and get a before → after table you can trust and re-run.
 
 Built to answer a concrete question — *what does quantization actually buy you?* — with real numbers instead of folklore.
