@@ -23,6 +23,25 @@ Quantization sweep, 3 prompts × 128 tokens each, `seed=7`. Every variant measur
 - **q8_0 is the sweet spot here**: within 8% of q4's speed, near-lossless quality, 809 MB.
 - Why: token *decode* is memory-bandwidth-bound, so shrinking the weights speeds it up. On a 0.5B model the gaps are already clear; they widen on larger models (see Roadmap).
 
+## Cross-hardware: Apple M3 (Metal) vs NVIDIA T4 (CUDA)
+
+Same model, same config, same harness — only the backend build changes (Metal → CUDA). The T4 run is on a free Google Colab instance (see [`docs/running-on-cuda.md`](docs/running-on-cuda.md)).
+
+**NVIDIA T4 (CUDA):**
+
+| variant | decode tok/s | TTFT ms | peak RSS MB\* | model on disk MB |
+|---|---|---|---|---|
+| fp16   | 136.5 | 117.8 | 1586 | 1208 |
+| q8_0   | 223.2 | 52.8  | 1022 | 644  |
+| q4_k_m | 256.7 | 50.5  | 846  | 469  |
+
+**What running on both reveals** — and you can't see it from one machine:
+
+- **Throughput → the GPU wins.** The T4 decodes ~1.8–2× faster than the M3 (q4_k_m: 257 vs 131 tok/s). Raw generation is where the datacenter GPU pulls ahead.
+- **Latency → the M3 wins.** Time-to-first-token is *lower* on the M3 (q4_k_m: 25.9 vs 50.5 ms; fp16: 3× lower). A 0.5B model doesn't saturate the T4, so per-request overhead dominates its TTFT, while the M3's unified memory keeps first-token latency low. A real throughput-vs-latency tradeoff.
+- **\*Memory isn't comparable as-is.** On the T4, `peak RSS` is *host* memory (CUDA runtime + staging); the weights live in VRAM, which this harness doesn't measure yet. So RSS is only meaningful within a platform. A VRAM probe is the honest next step.
+- The quantization tradeoff holds on both platforms: q4_k_m is fastest and smallest everywhere.
+
 ## How it measures (the part that matters)
 
 A benchmark is only worth the honesty of its measurement. Two decisions here:
@@ -65,8 +84,8 @@ uv run python scripts/run.py --config configs/quant-sweep-0.5b.yaml --isolate
 
 ## Roadmap
 
-- **Larger models** — the fp16↔q4 gap grows with model size (more bandwidth-bound); 1.5B / 3B next.
-- **NVIDIA / CUDA** — same harness, CUDA backend, on a real GPU; **cross-hardware comparison (M3-Metal vs CUDA)**.
+- **Per-variant VRAM** — on a GPU the honest memory number is VRAM, not host RSS; add a VRAM probe so the memory column is comparable across hardware.
+- **Larger models** — the fp16↔q4 gap grows with model size (more bandwidth-bound); the T4's 16 GB VRAM makes 1.5B / 3B easy next.
 - **GPU-only experiments** — continuous batching throughput, speculative decoding.
 - **Quality dimension** — outputs are captured per variant and an `output_similarity` metric exists; a full perplexity eval is the next measurement to add.
 
